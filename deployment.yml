@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gotest-deployment
+  labels:
+    app: gotest-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gotest
+  template:
+    metadata:
+      labels:
+        app: gotest
+    spec:
+      containers:
+      - name: go-test
+        image: gabbosam/go_test:latest
+        volumeMounts:
+        - name: certificate-volumes
+          mountPath: /etc/server
+        ports:
+        - containerPort: 80
+      volumes:
+      - name: certificate-volumes
+        secret:
+          secretName: go-test-certificate
